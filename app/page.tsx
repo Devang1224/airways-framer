@@ -1,101 +1,95 @@
+'use client'
+
 import Image from "next/image";
+import {FeaturedDestinations} from "@/components/FeaturedDestinations"
+import {motion, useMotionTemplate, useScroll, useTransform} from 'framer-motion'
+import { useRef } from "react";
+import Logo from "@/assets/images/airlineLogo.png"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+const ref = useRef(null)
+const {scrollYProgress} = useScroll(
+  {
+    target:ref,
+    offset:['start start','end end']
+  }
+)
+
+const scale = useTransform(scrollYProgress,[0,1],[1,12]);
+const shiftX = useTransform(scrollYProgress,[0,0.9],[50,0])
+const shiftXCalc = useMotionTemplate`max(0px, calc(${shiftX}% + calc(${shiftX}vw - 300px)))`;
+const shiftY = useTransform(scrollYProgress,[0,1],["34%","110%"])
+const textOpacity = useTransform(scrollYProgress,[0.2,0.8],[0,1]);
+
+  return (
+<>
+
+    <div className="min-h-[200vh] relative z-10 overflow-clip" ref={ref} > 
+            <motion.div 
+            className=" window-mask h-screen bg-white sticky z-10 p-10  origin-[90%_40%] "
+            style={{
+              scale
+            }}
+            >
+              <div className="flex h-full items-center relative">
+              <div className="max-w-[60%] flex flex-col gap-10 justify-center ">
+                  <p className="text-7xl  font-bold text-[#235F87]">
+                    The World is Wide, So Go Out & Explore!
+                   </p>
+                   <p className="text-lg font-semibold text-black/50">
+                   Wherever your dreams take you, we'll get you there.
+                   Experience the world, one destination at a time.
+                   </p>
+              </div>
+              <div className="flex items-center justify-center absolute right-10 ">
+                   <div className=" w-[300px] aspect-[5/8] rounded-full border-[4px] border-gray-300 shadow-lg"/>
+              </div>
+              </div>
+
+            </motion.div>
     </div>
+     
+    <div className="h-[200vh] p-10 mt-[-200vh] relative overflow-clip hero-background " >
+     <motion.div className="sticky mx-auto block aspect-video w-[1600px] max-w-[90%] rounded-[60px] bg-white shadow-2xl overflow-clip "
+      style={{
+        x:shiftXCalc,
+        y:shiftY
+      }}
+     >
+      <div className="h-full page-background p-10">
+
+        <div>
+          <Image alt="logo" src={Logo} width={100} height={100}/>
+        </div>
+
+        <div className="max-w-[60%] mt-[10%] flex flex-col gap-5">
+
+          <motion.p className="text-8xl text-[#225E86] font-semibold"
+           style={{
+            opacity: textOpacity
+           }}
+          >
+            Take Off With Confidence
+          </motion.p>
+          <motion.p
+          className="text-lg font-semibold text-black/50 max-w-[90%]"
+           style={{
+            opacity: textOpacity
+           }}
+          >
+          From cityscapes to natural wonders, discover it all.
+          Your next adventure is just a flight away.
+          </motion.p>
+        </div>
+
+      </div>
+
+     </motion.div>
+    </div>
+
+<FeaturedDestinations/>
+</>
+
   );
 }

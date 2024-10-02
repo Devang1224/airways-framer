@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        boxShadow:{
+          'innerCustom': 'inset 0 2px 5px rgba(171, 29, 29, 0.5)',
+        }
       },
     },
   },
