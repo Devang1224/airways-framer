@@ -27,7 +27,7 @@ body {
 }
 
 .hero-background{
-  background-image: url('../assets//images/fantastic-blue-sky.jpg');
+  background-image: linear-gradient(to top, rgb(255, 255, 255) 1%, transparent 99%),url('../assets//images/fantastic-blue-sky.jpg');
   background-repeat: no-repeat;
 }
 .page-background{
